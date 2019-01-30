@@ -1,0 +1,15 @@
+{
+  "name": "simple-videochat-webrtc",
+  "version": "1.0.0",
+  "description": "Video Chat between 2 people using simple-peer",
+  "main": "main.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Vinayak Sinha",
+  "dependencies": {
+    "express": "^4.16.4",
+    "simple-peer": "^9.2.1",
+    "socket.io": "^2.2.0"
+  }
+}
