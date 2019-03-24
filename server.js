@@ -21,10 +21,10 @@ io.on('connection', function (socket) {
                 console.log('One Client Exists')
                 this.emit('CreatePeer')
             }
-            clients++;
         }
         else
-            this.emit('SessionActive')  
+            this.emit('SessionActive')
+        clients++;
     })
     socket.on('Offer', SendOffer)
     socket.on('Answer', SendAnswer)
@@ -35,13 +35,7 @@ function Disconnect() {
     console.log('Disconnect Run')
     if (clients > 0)
         clients--
-    //this.broadcast.emit('RemoveVideo')
 }
-
-// function StoreOffer(data) { //set the init offer
-//     console.log('connection came:', data)
-//     offer = data
-// }
 
 function SendOffer(offer) {
     console.log(
