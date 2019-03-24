@@ -100,6 +100,7 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
             })
 
             peer.on('close', function () {
+                console.log('inside close')
                 //destroy video
                 document.getElementById("peerVideo").remove();
                 //peer clean up
