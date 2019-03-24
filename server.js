@@ -11,31 +11,49 @@ router.get("/", function (request, response) {
     response.sendFile('./public/index.html', { root: __dirname });
 });
 
-let offer
-// let answers
+let clients = 0
 
 io.on('connection', function (socket) {
-    socket.on('FrontOffer', StoreOffer);
-    socket.on('FrontAnswer', SendAnswer)
-    socket.on('NotInit', SendOffer)
+    socket.on('NewClient', function () {
+        console.log('AddClient Run, clients:', clients)
+        if (clients < 2) {
+            if (clients == 1) {
+                console.log('One Client Exists')
+                this.emit('CreatePeer')
+            }
+            clients++;
+        }
+        else
+            this.emit('SessionActive')  
+    })
+    socket.on('Offer', SendOffer)
+    socket.on('Answer', SendAnswer)
+    socket.on('disconnect', Disconnect)
 })
 
-function StoreOffer(data) { //set the init offer
-    console.log('connection came:', data)
-    offer = data
-
+function Disconnect() {
+    console.log('Disconnect Run')
+    if (clients > 0)
+        clients--
+    //this.broadcast.emit('RemoveVideo')
 }
 
-function SendOffer() {
-    this.emit("BackOffer", offer)
+// function StoreOffer(data) { //set the init offer
+//     console.log('connection came:', data)
+//     offer = data
+// }
+
+function SendOffer(offer) {
+    console.log(
+        'In sendoffer'
+    )
+    this.broadcast.emit("BackOffer", offer)
 }
 
 function SendAnswer(data) {
+    //this.broadcast.emit("BackAnswer", data)
     this.broadcast.emit("BackAnswer", data)
 }
 
-
-
 app.use('/', router)
-
 http.listen(port, () => console.log('Active on 3000 port.'));

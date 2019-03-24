@@ -4,12 +4,16 @@
   "description": "Video Chat between 2 people using simple-peer",
   "main": "main.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "watch": "npx watchify ./public/main.js -o ./public/bundle.js"
   },
   "author": "Vinayak Sinha",
   "dependencies": {
     "express": "^4.16.4",
     "simple-peer": "^9.2.1",
     "socket.io": "^2.2.0"
+  },
+  "devDependencies": {
+    "watchify": "^3.11.1"
   }
 }
