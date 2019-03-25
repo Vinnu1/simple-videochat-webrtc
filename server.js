@@ -38,14 +38,10 @@ function Disconnect() {
 }
 
 function SendOffer(offer) {
-    console.log(
-        'In sendoffer'
-    )
     this.broadcast.emit("BackOffer", offer)
 }
 
 function SendAnswer(data) {
-    //this.broadcast.emit("BackAnswer", data)
     this.broadcast.emit("BackAnswer", data)
 }
 

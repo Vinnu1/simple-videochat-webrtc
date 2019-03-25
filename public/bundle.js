@@ -7537,26 +7537,28 @@ function config (name) {
 },{}],31:[function(require,module,exports){
 var Peer = require('simple-peer')
 var socket = io();
-
 const video = document.querySelector('video')
+let client = {}
 
 // get stream
-navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+navigator.mediaDevices.getUserMedia({ video: { height: 300 }, audio: true })
     .then((stream) => {
         socket.emit('NewClient')
+        //CHANGE VIDEO RESOLUTION
         video.srcObject = stream
         //for our video volume is muted 
         //video.volume = 0
         video.play()
-        let client = {}
+
+        socket.on("BackOffer", FrontAnswer) //recieved offer
+        socket.on("BackAnswer", SignalAnswer) //recieved answer
+        socket.on("SessionActive", SessionActive)
+        socket.on('CreatePeer', MakePeer)
 
         function MakePeer() {
-            //create video id
-
             console.log('MakePeer Run')
             client.gotAnswer = false
             let peer = InitPeer('init')
-            //let peer = new Peer({ initiator: true, trickle: false, stream: stream })
             peer.on('signal', function (data) {
                 console.log('inside peer signal')
                 if (!client.gotAnswer) {
@@ -7564,36 +7566,11 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
                     socket.emit('Offer', data)
                 }
             })
-            // peer.on('close', function () {
-            //     console.log('Closed in MakePeer')
-            //     DestroyVideo()
-            //     peer.destroy(error => {
-            //         console.log('inside the destroy')
-            //         console.log("Error:", console.log(error)
-            //         )
-            //     })
-            // })
-
-            // peer.on('stream', function (stream) {
-            //     CreateVideo(stream)
-            // })
-
             client.peer = peer //keep everything related to peer at one place
         }
 
-        socket.on("BackOffer", FrontAnswer) //recieved offer
-        socket.on("BackAnswer", SignalAnswer) //recieved answer
-        socket.on("SessionActive", SessionActive)
-        socket.on('CreatePeer', MakePeer)
-        //socket.on("RemoveVideo", DestroyVideo)
-
         function SessionActive() {
             document.write('Session active. Please come back later.')
-        }
-
-        function DestroyVideo() {
-            //destroy video by id
-            console.log('destroy video element')
         }
 
         function FrontAnswer(offer) {
@@ -7604,22 +7581,7 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
                 socket.emit('Answer', data)
             })
 
-            // peer.on('stream', function (stream) {
-            //     CreateVideo(stream)
-            // })
-
-            // peer.on('close', function () {
-            //     console.log('Closed in FrontAnswer')
-            //     DestroyVideo()
-            //     peer.destroy(error => {
-            //         console.log('inside the destroy')
-            //         console.log("Error:", console.log(error)
-            //         )
-            //     })
-            // })
-
-            peer.signal(offer)
-            //peer.signal(data) //generate answer
+            peer.signal(offer) //generate answer
         }
 
         function SignalAnswer(answer) {
@@ -7635,8 +7597,8 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
             peer.on('stream', function (stream) {
                 CreateVideo(stream)
             })
-
             peer.on('close', function () {
+                console.log('inside close') //THIS IS HERE - Not working in chrome
                 //destroy video
                 document.getElementById("peerVideo").remove();
                 //peer clean up
@@ -7660,6 +7622,7 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
             document.querySelector('#videoContainer').prepend(video)
             video.play()
         }
+
 
     })
 
