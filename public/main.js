@@ -4,7 +4,7 @@ const video = document.querySelector('video')
 let client = {}
 
 // get stream
-navigator.mediaDevices.getUserMedia({ video: { height: 300 }, audio: true })
+navigator.mediaDevices.getUserMedia({ video: { height: 200, width: 200 }, audio: true })
     .then((stream) => {
         socket.emit('NewClient')
         //CHANGE VIDEO RESOLUTION
@@ -87,5 +87,8 @@ navigator.mediaDevices.getUserMedia({ video: { height: 300 }, audio: true })
         }
 
 
+    })
+    .catch((err) => {
+        document.write(err)
     })
 

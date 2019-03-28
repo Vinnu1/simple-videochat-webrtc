@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
-const http = require('http').Server(app);
-const io = require('socket.io')(http);
+const http = require('http').Server(app); //http module creates servers which listen through ports, app is passed through it
+const io = require('socket.io')(http); //pass http to socket
 const router = express.Router()
 const port = process.env.PORT || 3000;
 
