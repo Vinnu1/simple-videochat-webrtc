@@ -7,10 +7,7 @@ let client = {}
 navigator.mediaDevices.getUserMedia({ video: true, audio: true })
     .then((stream) => {
         socket.emit('NewClient')
-        //CHANGE VIDEO RESOLUTION
         video.srcObject = stream
-        //for our video volume is muted 
-        //video.volume = 0
         video.play()
 
         socket.on("BackOffer", FrontAnswer) //recieved offer
@@ -38,7 +35,6 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
 
         function FrontAnswer(offer) {
             console.log('Offer came, sending answer from new peer:', offer)
-            //let peer = new Peer({ trickle: false, stream: stream })
             let peer = InitPeer('notInit')
             peer.on('signal', (data) => {
                 socket.emit('Answer', data)
@@ -72,17 +68,10 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
 
         function CreateVideo(stream) {
             console.log('creating video')
-            //let div = document.createElement('div')
-            //let videoDiv = document.createElement('div')
-            //videoDiv.setAttribute('class', "embed-responsive embed-responsive-21by9") //"col w-50 h-50"
-            //div.setAttribute('class', "col-12 col-sm-6 h-50 d-flex flex-column") //"col w-50 h-50"
             let video = document.createElement('video')
-            video.id = "peerVideo" //you maybe wondering why unique id, cause the we don't want a overload condition to kill video. Btw try peer disconnect. 
-            //video.setAttribute('class', "embed-responsive-item")
+            video.id = "peerVideo"
             video.srcObject = stream
             video.class = "embed-responsive-item"
-            //videoDiv.appendChild(video) 
-            //div.appendChild(videoDiv)
             document.querySelector('#peerDiv').prepend(video)
             video.play()
         }
