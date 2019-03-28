@@ -1,9 +1,64 @@
 <html>
 
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        .h-48 {
+            height: 48% !important;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+
 <body>
-    <div id="videoContainer">
-        <video muted></video>
+    <div class="container-fluid">
+        <div id="videoContainer">
+            <div class="row">
+                <div class="col h-48 mb-1 d-flex justify-content-center">
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <video class="embed-responsive-item" muted></video>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col h-48 d-flex justify-content-center">
+                    <div id="peerDiv" class="embed-responsive embed-responsive-16by9">
+
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+    <!-- 
+    //working setup
+    <div id="videoContainer">
+            <div class="row">
+                <div class="col h-48 mb-1 d-flex justify-content-center">
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <video class="embed-responsive-item" muted></video>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col h-48 d-flex justify-content-center">
+                    <div id="peerDiv" class="embed-responsive embed-responsive-16by9">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <div id="videoContainer">
+        <div class="embed-responsive embed-responsive-16by9">
+            <div class="embed-responsive-item">
+                <video muted></video>
+            </div>
+        </div>
+    </div> -->
     <script src="/socket.io/socket.io.js"></script>
     <script src="bundle.js"></script>
 </body>

@@ -7541,7 +7541,7 @@ const video = document.querySelector('video')
 let client = {}
 
 // get stream
-navigator.mediaDevices.getUserMedia({ video: { height: 200, width: 200 }, audio: true })
+navigator.mediaDevices.getUserMedia({ video: true, audio: true })
     .then((stream) => {
         socket.emit('NewClient')
         //CHANGE VIDEO RESOLUTION
@@ -7617,9 +7617,10 @@ navigator.mediaDevices.getUserMedia({ video: { height: 200, width: 200 }, audio:
             video.id = "peerVideo" //you maybe wondering why unique id, cause the we don't want a overload condition to kill video. Btw try peer disconnect. 
             //video.setAttribute('class', "embed-responsive-item")
             video.srcObject = stream
+            video.class = "embed-responsive-item"
             //videoDiv.appendChild(video) 
             //div.appendChild(videoDiv)
-            document.querySelector('#videoContainer').prepend(video)
+            document.querySelector('#peerDiv').prepend(video)
             video.play()
         }
 
