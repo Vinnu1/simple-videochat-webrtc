@@ -1,24 +1,16 @@
 const express = require('express')
 const app = express()
-const http = require('http').Server(app); //http module creates servers which listen through ports, app is passed through it
-const io = require('socket.io')(http); //pass http to socket
-const router = express.Router()
-const port = process.env.PORT || 3000;
+const http = require('http').Server(app)
+const io = require('socket.io')(http)
+const port = process.env.PORT || 3000
 
 app.use(express.static(__dirname + "/public"))
-
-router.get("/", function (request, response) {
-    response.sendFile('./public/index.html', { root: __dirname });
-});
-
 let clients = 0
 
 io.on('connection', function (socket) {
-    socket.on('NewClient', function () {
-        console.log('AddClient Run, clients:', clients)
+    socket.on("NewClient", function () {
         if (clients < 2) {
             if (clients == 1) {
-                console.log('One Client Exists')
                 this.emit('CreatePeer')
             }
         }
@@ -32,7 +24,6 @@ io.on('connection', function (socket) {
 })
 
 function Disconnect() {
-    console.log('Disconnect Run')
     if (clients > 0)
         clients--
 }
@@ -45,5 +36,7 @@ function SendAnswer(data) {
     this.broadcast.emit("BackAnswer", data)
 }
 
-app.use('/', router)
-http.listen(port, () => console.log('Active on 3000 port.'));
+http.listen(port, () => console.log(`Active on ${port} port`))
+
+
+
