@@ -1,14 +1,22 @@
 let Peer = require('simple-peer')
 let socket = io()
 const video = document.querySelector('video')
+const filter = document.querySelector('#filter')
 let client = {}
-
+let currentFilter
 //get stream
 navigator.mediaDevices.getUserMedia({ video: true, audio: true })
     .then(stream => {
         socket.emit('NewClient')
         video.srcObject = stream
         video.play()
+
+        filter.addEventListener('change', (event) => {
+            currentFilter = event.target.value
+            video.style.filter = currentFilter
+            SendFilter(currentFilter)
+            event.preventDefault
+        })
 
         //used to initialize a peer
         function InitPeer(type) {
@@ -19,6 +27,11 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
             peer.on('close', function () {
                 document.getElementById("peerVideo").remove();
                 peer.destroy()
+            })
+            peer.on('data', function (data) {
+                let decodedData = new TextDecoder('utf-8').decode(data)
+                let peervideo = document.querySelector('#peerVideo')
+                peervideo.style.filter = decodedData
             })
             return peer
         }
@@ -43,6 +56,7 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
                 socket.emit('Answer', data)
             })
             peer.signal(offer)
+            client.peer = peer
         }
 
         function SignalAnswer(answer) {
@@ -58,10 +72,17 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
             video.class = 'embed-responsive-item'
             document.querySelector('#peerDiv').appendChild(video)
             video.play()
+            SendFilter(currentFilter)
         }
 
         function SessionActive() {
             document.write('Session Active. Please come back later')
+        }
+
+        function SendFilter(filter) {
+            if (client.peer) {
+                client.peer.send(filter)
+            }
         }
 
         socket.on('BackOffer', FrontAnswer)
