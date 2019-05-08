@@ -1,7 +1,9 @@
+
 let Peer = require('simple-peer')
 let socket = io()
 const video = document.querySelector('video')
 const filter = document.querySelector('#filter')
+const checkboxTheme = document.querySelector('#theme')
 let client = {}
 let currentFilter
 //get stream
@@ -24,10 +26,11 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
             peer.on('stream', function (stream) {
                 CreateVideo(stream)
             })
-            peer.on('close', function () {
-                document.getElementById("peerVideo").remove();
-                peer.destroy()
-            })
+            //This isn't working in chrome; works perfectly in firefox.
+            // peer.on('close', function () {
+            //     document.getElementById("peerVideo").remove();
+            //     peer.destroy()
+            // })
             peer.on('data', function (data) {
                 let decodedData = new TextDecoder('utf-8').decode(data)
                 let peervideo = document.querySelector('#peerVideo')
@@ -35,7 +38,6 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
             })
             return peer
         }
-
 
         //for peer of type init
         function MakePeer() {
@@ -66,13 +68,24 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
         }
 
         function CreateVideo(stream) {
+            CreateDiv()
+
             let video = document.createElement('video')
             video.id = 'peerVideo'
             video.srcObject = stream
-            video.class = 'embed-responsive-item'
+            video.setAttribute('class', 'embed-responsive-item')
             document.querySelector('#peerDiv').appendChild(video)
             video.play()
-            SendFilter(currentFilter)
+            //wait for 1 sec
+            setTimeout(() => SendFilter(currentFilter), 1000)
+
+            video.addEventListener('click', () => {
+                if (video.volume != 0)
+                    video.volume = 0
+                else
+                    video.volume = 1
+            })
+
         }
 
         function SessionActive() {
@@ -85,10 +98,46 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
             }
         }
 
+        function RemovePeer() {
+            document.getElementById("peerVideo").remove();
+            document.getElementById("muteText").remove();
+            if (client.peer) {
+                client.peer.destroy()
+            }
+        }
+
         socket.on('BackOffer', FrontAnswer)
         socket.on('BackAnswer', SignalAnswer)
         socket.on('SessionActive', SessionActive)
         socket.on('CreatePeer', MakePeer)
+        socket.on('Disconnect', RemovePeer)
 
     })
     .catch(err => document.write(err))
+
+checkboxTheme.addEventListener('click', () => {
+    if (checkboxTheme.checked == true) {
+        document.body.style.backgroundColor = '#212529'
+        if (document.querySelector('#muteText')) {
+            document.querySelector('#muteText').style.color = "#fff"
+        }
+
+    }
+    else {
+        document.body.style.backgroundColor = '#fff'
+        if (document.querySelector('#muteText')) {
+            document.querySelector('#muteText').style.color = "#212529"
+        }
+    }
+}
+)
+
+function CreateDiv() {
+    let div = document.createElement('div')
+    div.setAttribute('class', "centered")
+    div.id = "muteText"
+    div.innerHTML = "Click to Mute/Unmute"
+    document.querySelector('#peerDiv').appendChild(div)
+    if (checkboxTheme.checked == true)
+        document.querySelector('#muteText').style.color = "#fff"
+}
