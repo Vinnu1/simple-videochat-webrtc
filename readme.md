@@ -9,4 +9,5 @@ Start - npm start
 
 For development run watchify - npm run watch  
 
-Open localhost in two browser tabs.
+Open localhost in two browser tabs for testing. 
+Deploy it and open in two separate devices for real-world usage.
