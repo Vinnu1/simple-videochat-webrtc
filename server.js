@@ -18,25 +18,25 @@ io.on('connection', function (socket) {
             this.emit('SessionActive')
         clients++;
     })
-    socket.on('Offer', SendOffer)
-    socket.on('Answer', SendAnswer)
-    socket.on('disconnect', Disconnect)
+    socket.on('Offer', Offer)
+    socket.on('Answer', Answer)
+    socket.on('disconnect', DeletePeer)
 })
 
-function Disconnect() {
+function DeletePeer() {
     if (clients > 0) {
         if (clients <= 2)
-            this.broadcast.emit("Disconnect")
+            this.broadcast.emit("DeletePeer")
         clients--
     }
 }
 
-function SendOffer(offer) {
-    this.broadcast.emit("BackOffer", offer)
+function Offer(offer) {
+    this.broadcast.emit("Offer", offer)
 }
 
-function SendAnswer(data) {
-    this.broadcast.emit("BackAnswer", data)
+function Answer(data) {
+    this.broadcast.emit("Answer", data)
 }
 
 http.listen(port, () => console.log(`Active on ${port} port`))

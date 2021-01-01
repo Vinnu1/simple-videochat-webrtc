@@ -33,7 +33,7 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
         }
 
         //for peer of type init
-        function MakePeer() {
+        function CreatePeer() {
             client.gotAnswer = false
             let peer = InitPeer('init')
             peer.on('signal', function (data) {
@@ -45,7 +45,7 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
         }
 
         //for peer of type not init
-        function FrontAnswer(offer) {
+        function Offer(offer) {
             let peer = InitPeer('notInit')
             peer.on('signal', (data) => {
                 socket.emit('Answer', data)
@@ -54,7 +54,7 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
             client.peer = peer
         }
 
-        function SignalAnswer(answer) {
+        function Answer(answer) {
             client.gotAnswer = true
             let peer = client.peer
             peer.signal(answer)
@@ -81,24 +81,18 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
             document.write('Session Active. Please come back later')
         }
 
-        function SendFilter(filter) {
-            if (client.peer) {
-                client.peer.send(filter)
-            }
-        }
-
-        function RemovePeer() {
+        function DeletePeer() {
             document.getElementById("peerVideo").remove();
            if (client.peer) {
                 client.peer.destroy()
             }
         }
 
-        socket.on('BackOffer', FrontAnswer)
-        socket.on('BackAnswer', SignalAnswer)
+        socket.on('Offer', Offer)
+        socket.on('Answer', Answer)
         socket.on('SessionActive', SessionActive)
-        socket.on('CreatePeer', MakePeer)
-        socket.on('Disconnect', RemovePeer)
+        socket.on('CreatePeer', CreatePeer)
+        socket.on('DeletePeer', DeletePeer)
 
     })
     .catch(err => document.write(err))

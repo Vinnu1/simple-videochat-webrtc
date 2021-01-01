@@ -4,7 +4,7 @@
   "description": "Video Chat between 2 people using simple-peer",
   "main": "main.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "nodemon server.js",
     "watch": "npx watchify ./public/index.js -o ./public/bundle.js",
     "open": "node open.js"
   },
@@ -15,6 +15,7 @@
     "socket.io": "^2.2.0"
   },
   "devDependencies": {
+    "nodemon": "^2.0.6",
     "open": "^7.3.0",
     "watchify": "^3.11.1"
   }
