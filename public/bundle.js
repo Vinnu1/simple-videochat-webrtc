@@ -66,7 +66,8 @@ function toByteArray (b64) {
     ? validLen - 4
     : validLen
 
-  for (var i = 0; i < len; i += 4) {
+  var i
+  for (i = 0; i < len; i += 4) {
     tmp =
       (revLookup[b64.charCodeAt(i)] << 18) |
       (revLookup[b64.charCodeAt(i + 1)] << 12) |
@@ -125,9 +126,7 @@ function fromByteArray (uint8) {
 
   // go through the array every three bytes, we'll deal with trailing stuff later
   for (var i = 0, len2 = len - extraBytes; i < len2; i += maxChunkLength) {
-    parts.push(encodeChunk(
-      uint8, i, (i + maxChunkLength) > len2 ? len2 : (i + maxChunkLength)
-    ))
+    parts.push(encodeChunk(uint8, i, (i + maxChunkLength) > len2 ? len2 : (i + maxChunkLength)))
   }
 
   // pad the end with zeros, but make sure to not forget the extra bytes
@@ -154,7 +153,7 @@ function fromByteArray (uint8) {
 },{}],2:[function(require,module,exports){
 
 },{}],3:[function(require,module,exports){
-(function (Buffer){
+(function (Buffer){(function (){
 /*!
  * The buffer module from node.js, for the browser.
  *
@@ -1933,9 +1932,9 @@ function numberIsNaN (obj) {
   return obj !== obj // eslint-disable-line no-self-compare
 }
 
-}).call(this,require("buffer").Buffer)
+}).call(this)}).call(this,require("buffer").Buffer)
 },{"base64-js":1,"buffer":3,"ieee754":7}],4:[function(require,module,exports){
-(function (Buffer){
+(function (Buffer){(function (){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -2044,7 +2043,7 @@ function objectToString(o) {
   return Object.prototype.toString.call(o);
 }
 
-}).call(this,{"isBuffer":require("../../is-buffer/index.js")})
+}).call(this)}).call(this,{"isBuffer":require("../../is-buffer/index.js")})
 },{"../../is-buffer/index.js":9}],5:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -2588,6 +2587,7 @@ module.exports = function getBrowserRTC () {
 }
 
 },{}],7:[function(require,module,exports){
+/*! ieee754. BSD-3-Clause License. Feross Aboukhadijeh <https://feross.org/opensource> */
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   var e, m
   var eLen = (nBytes * 8) - mLen - 1
@@ -2729,7 +2729,7 @@ module.exports = Array.isArray || function (arr) {
 };
 
 },{}],11:[function(require,module,exports){
-(function (process){
+(function (process){(function (){
 'use strict';
 
 if (!process.version ||
@@ -2775,7 +2775,7 @@ function nextTick(fn, arg1, arg2, arg3) {
 }
 
 
-}).call(this,require('_process'))
+}).call(this)}).call(this,require('_process'))
 },{"_process":12}],12:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
@@ -2963,7 +2963,7 @@ process.chdir = function (dir) {
 process.umask = function() { return 0; };
 
 },{}],13:[function(require,module,exports){
-(function (process,global){
+(function (process,global){(function (){
 'use strict'
 
 // limit of Crypto.getRandomValues()
@@ -3015,7 +3015,7 @@ function randomBytes (size, cb) {
   return bytes
 }
 
-}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+}).call(this)}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"_process":12,"safe-buffer":23}],14:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -3197,7 +3197,7 @@ PassThrough.prototype._transform = function (chunk, encoding, cb) {
   cb(null, chunk);
 };
 },{"./_stream_transform":17,"core-util-is":4,"inherits":8}],16:[function(require,module,exports){
-(function (process,global){
+(function (process,global){(function (){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -4217,7 +4217,7 @@ function indexOf(xs, x) {
   }
   return -1;
 }
-}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+}).call(this)}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"./_stream_duplex":14,"./internal/streams/BufferList":19,"./internal/streams/destroy":20,"./internal/streams/stream":21,"_process":12,"core-util-is":4,"events":5,"inherits":8,"isarray":10,"process-nextick-args":11,"safe-buffer":23,"string_decoder/":28,"util":2}],17:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -4434,7 +4434,7 @@ function done(stream, er, data) {
   return stream.push(null);
 }
 },{"./_stream_duplex":14,"core-util-is":4,"inherits":8}],18:[function(require,module,exports){
-(function (process,global,setImmediate){
+(function (process,global,setImmediate){(function (){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -5122,7 +5122,7 @@ Writable.prototype._destroy = function (err, cb) {
   this.end();
   cb(err);
 };
-}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
+}).call(this)}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
 },{"./_stream_duplex":14,"./internal/streams/destroy":20,"./internal/streams/stream":21,"_process":12,"core-util-is":4,"inherits":8,"process-nextick-args":11,"safe-buffer":23,"timers":29,"util-deprecate":30}],19:[function(require,module,exports){
 'use strict';
 
@@ -5355,7 +5355,7 @@ SafeBuffer.allocUnsafeSlow = function (size) {
 }
 
 },{"buffer":3}],24:[function(require,module,exports){
-(function (Buffer){
+(function (Buffer){(function (){
 module.exports = Peer
 
 var debug = require('debug')('simple-peer')
@@ -6377,9 +6377,9 @@ function makeError (message, code) {
   return err
 }
 
-}).call(this,require("buffer").Buffer)
+}).call(this)}).call(this,require("buffer").Buffer)
 },{"buffer":3,"debug":25,"get-browser-rtc":6,"inherits":8,"randombytes":13,"readable-stream":22}],25:[function(require,module,exports){
-(function (process){
+(function (process){(function (){
 /* eslint-env browser */
 
 /**
@@ -6645,7 +6645,7 @@ formatters.j = function (v) {
 	}
 };
 
-}).call(this,require('_process'))
+}).call(this)}).call(this,require('_process'))
 },{"./common":26,"_process":12}],26:[function(require,module,exports){
 
 /**
@@ -7376,7 +7376,7 @@ function simpleEnd(buf) {
   return buf && buf.length ? this.write(buf) : '';
 }
 },{"safe-buffer":23}],29:[function(require,module,exports){
-(function (setImmediate,clearImmediate){
+(function (setImmediate,clearImmediate){(function (){
 var nextTick = require('process/browser.js').nextTick;
 var apply = Function.prototype.apply;
 var slice = Array.prototype.slice;
@@ -7453,9 +7453,9 @@ exports.setImmediate = typeof setImmediate === "function" ? setImmediate : funct
 exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate : function(id) {
   delete immediateIds[id];
 };
-}).call(this,require("timers").setImmediate,require("timers").clearImmediate)
+}).call(this)}).call(this,require("timers").setImmediate,require("timers").clearImmediate)
 },{"process/browser.js":12,"timers":29}],30:[function(require,module,exports){
-(function (global){
+(function (global){(function (){
 
 /**
  * Module exports.
@@ -7524,14 +7524,12 @@ function config (name) {
   return String(val).toLowerCase() === 'true';
 }
 
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+}).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],31:[function(require,module,exports){
 
 let Peer = require('simple-peer')
 let socket = io()
 const video = document.querySelector('video')
-const filter = document.querySelector('#filter')
-const checkboxTheme = document.querySelector('#theme')
 let client = {}
 let currentFilter
 //get stream
@@ -7541,12 +7539,7 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
         video.srcObject = stream
         video.play()
 
-        filter.addEventListener('change', (event) => {
-            currentFilter = event.target.value
-            video.style.filter = currentFilter
-            SendFilter(currentFilter)
-            event.preventDefault
-        })
+      
 
         //used to initialize a peer
         function InitPeer(type) {
@@ -7595,18 +7588,14 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
             peer.signal(answer)
         }
 
-        function CreateVideo(stream) {
-            CreateDiv()
-
+        function CreateVideo(stream) {         
             let video = document.createElement('video')
             video.id = 'peerVideo'
             video.srcObject = stream
             video.setAttribute('class', 'embed-responsive-item')
             document.querySelector('#peerDiv').appendChild(video)
             video.play()
-            //wait for 1 sec
-            setTimeout(() => SendFilter(currentFilter), 1000)
-
+         
             video.addEventListener('click', () => {
                 if (video.volume != 0)
                     video.volume = 0
@@ -7628,8 +7617,7 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
 
         function RemovePeer() {
             document.getElementById("peerVideo").remove();
-            document.getElementById("muteText").remove();
-            if (client.peer) {
+           if (client.peer) {
                 client.peer.destroy()
             }
         }
@@ -7643,31 +7631,7 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
     })
     .catch(err => document.write(err))
 
-checkboxTheme.addEventListener('click', () => {
-    if (checkboxTheme.checked == true) {
-        document.body.style.backgroundColor = '#212529'
-        if (document.querySelector('#muteText')) {
-            document.querySelector('#muteText').style.color = "#fff"
-        }
 
-    }
-    else {
-        document.body.style.backgroundColor = '#fff'
-        if (document.querySelector('#muteText')) {
-            document.querySelector('#muteText').style.color = "#212529"
-        }
-    }
-}
-)
 
-function CreateDiv() {
-    let div = document.createElement('div')
-    div.setAttribute('class', "centered")
-    div.id = "muteText"
-    div.innerHTML = "Click to Mute/Unmute"
-    document.querySelector('#peerDiv').appendChild(div)
-    if (checkboxTheme.checked == true)
-        document.querySelector('#muteText').style.color = "#fff"
-}
 
 },{"simple-peer":24}]},{},[31]);

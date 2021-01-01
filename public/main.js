@@ -2,8 +2,6 @@
 let Peer = require('simple-peer')
 let socket = io()
 const video = document.querySelector('video')
-const filter = document.querySelector('#filter')
-const checkboxTheme = document.querySelector('#theme')
 let client = {}
 let currentFilter
 //get stream
@@ -13,12 +11,7 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
         video.srcObject = stream
         video.play()
 
-        filter.addEventListener('change', (event) => {
-            currentFilter = event.target.value
-            video.style.filter = currentFilter
-            SendFilter(currentFilter)
-            event.preventDefault
-        })
+      
 
         //used to initialize a peer
         function InitPeer(type) {
@@ -67,18 +60,14 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
             peer.signal(answer)
         }
 
-        function CreateVideo(stream) {
-            CreateDiv()
-
+        function CreateVideo(stream) {         
             let video = document.createElement('video')
             video.id = 'peerVideo'
             video.srcObject = stream
             video.setAttribute('class', 'embed-responsive-item')
             document.querySelector('#peerDiv').appendChild(video)
             video.play()
-            //wait for 1 sec
-            setTimeout(() => SendFilter(currentFilter), 1000)
-
+         
             video.addEventListener('click', () => {
                 if (video.volume != 0)
                     video.volume = 0
@@ -100,8 +89,7 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
 
         function RemovePeer() {
             document.getElementById("peerVideo").remove();
-            document.getElementById("muteText").remove();
-            if (client.peer) {
+           if (client.peer) {
                 client.peer.destroy()
             }
         }
@@ -115,29 +103,5 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
     })
     .catch(err => document.write(err))
 
-checkboxTheme.addEventListener('click', () => {
-    if (checkboxTheme.checked == true) {
-        document.body.style.backgroundColor = '#212529'
-        if (document.querySelector('#muteText')) {
-            document.querySelector('#muteText').style.color = "#fff"
-        }
 
-    }
-    else {
-        document.body.style.backgroundColor = '#fff'
-        if (document.querySelector('#muteText')) {
-            document.querySelector('#muteText').style.color = "#212529"
-        }
-    }
-}
-)
 
-function CreateDiv() {
-    let div = document.createElement('div')
-    div.setAttribute('class', "centered")
-    div.id = "muteText"
-    div.innerHTML = "Click to Mute/Unmute"
-    document.querySelector('#peerDiv').appendChild(div)
-    if (checkboxTheme.checked == true)
-        document.querySelector('#muteText').style.color = "#fff"
-}
