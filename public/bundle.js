@@ -13760,16 +13760,14 @@ module.exports = yeast;
 let Peer = require('simple-peer')
 let io=require('socket.io-client');
 let socket = io()
-const video = document.querySelector('video')
+const video = document.getElementById('video')
 let client = {}
 //get stream
 navigator.mediaDevices.getUserMedia({ video: true, audio: true })
     .then(stream => {
         socket.emit('NewClient')
         video.srcObject = stream
-        video.play()
-
-      
+        video.play()      
 
         //used to initialize a peer
         function InitPeer(type) {
@@ -13777,14 +13775,13 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
             peer.on('stream', function (stream) {
                 CreateVideo(stream)
             })
-            //This isn't working in chrome; works perfectly in firefox.
-            // peer.on('close', function () {
-            //     document.getElementById("peerVideo").remove();
-            //     peer.destroy()
-            // })
+            peer.on('close', function () {
+                document.getElementById("peerVideo").remove();
+                peer.destroy()
+            })
             peer.on('data', function (data) {
                 let decodedData = new TextDecoder('utf-8').decode(data)
-                let peervideo = document.querySelector('#peerVideo')
+                let peervideo = document.getElementById('peerVideo')
                 peervideo.style.filter = decodedData
             })
             return peer
@@ -13823,7 +13820,7 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
             video.id = 'peerVideo'
             video.srcObject = stream
             video.setAttribute('class', 'embed-responsive-item')
-            document.querySelector('#peerDiv').appendChild(video)
+            document.getElementById('peerDiv').appendChild(video)
             video.play()
          
             video.addEventListener('click', () => {
@@ -13832,15 +13829,10 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
                 else
                     video.volume = 1
             })
-
-        }
-
-        function SessionActive() {
-            document.write('Session Active. Please come back later')
         }
 
         function DeletePeer() {
-            document.getElementById("peerVideo").remove();
+          //  document.getElementById("peerVideo").remove();
            if (client.peer) {
                 client.peer.destroy()
             }
@@ -13848,14 +13840,12 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
 
         socket.on('Offer', Offer)
         socket.on('Answer', Answer)
-        socket.on('SessionActive', SessionActive)
+        socket.on('SessionActive', ()=>{
+            document.write('Session Active. Please come back later')
+        })
         socket.on('CreatePeer', CreatePeer)
         socket.on('DeletePeer', DeletePeer)
-
     })
     .catch(err => document.write(err))
-
-
-
 
 },{"simple-peer":53,"socket.io-client":57}]},{},[75]);
