@@ -5,7 +5,8 @@
   "main": "main.js",
   "scripts": {
     "start": "node server.js",
-    "watch": "npx watchify ./public/index.js -o ./public/bundle.js"
+    "watch": "npx watchify ./public/index.js -o ./public/bundle.js",
+    "open": "node open.js"
   },
   "author": "Vinayak Sinha",
   "dependencies": {
@@ -14,6 +15,7 @@
     "socket.io": "^2.2.0"
   },
   "devDependencies": {
+    "open": "^7.3.0",
     "watchify": "^3.11.1"
   }
 }
