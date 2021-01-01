@@ -3,26 +3,18 @@
 <head>
     <title>Video Chat App</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link href="index.css" rel="stylesheet">    
+    <link href="index.css" rel="stylesheet">
     <script defer src="bundle.js"></script>
 </head>
 
 <body>
-    <div class="container-fluid">        
-        <div class="row h-90 w-100">
-            <div class="col-12 col-sm-6 d-flex justify-content-center">
-                <div class="embed-responsive embed-responsive-16by9">
-                    <video id="video" class="embed-responsive-item" muted></video>
-                </div>
-            </div>
-            <div class="col-12 col-sm-6 d-flex justify-content-center">
-                <div id="peerDiv" class="embed-responsive embed-responsive-16by9">
-                </div>
-            </div>
+    <div id="videoGrid" >
+        <div class="videoContainer"><h3>Administrator</h3>
+            <video id="administratorsVideo" muted></video>
+        </div>
+        <div id="peerDiv"  class="videoContainer"><h3>The peer</h3>
         </div>
     </div>
-
 </body>
 
 </html>

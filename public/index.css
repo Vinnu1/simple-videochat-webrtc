@@ -1,27 +1,24 @@
 video {
     transform: rotateY(180deg); 
 }
-
-.select {
-    height: 30px;
+body{
+    margin: 10px;         
 }
 
-.h-90 {
-    height: 90% !important;
+#videoGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 300px);
+    grid-auto-rows: 300px;
+    margin: 10px;
+    grid-gap: 10px;
 }
 
-.h-10 {
-    height: 10% !important;
+.videoContainer {
+    width: 300px;
+    height: 350px;
 }
 
-#peerVideo:hover {
-    opacity: 0.6;
-    cursor: pointer;
-}
-
-.centered {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+video {
+    width: 300px;
+    height: 300px;
 }
