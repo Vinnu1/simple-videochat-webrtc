@@ -1,9 +1,9 @@
 
 let Peer = require('simple-peer')
+let io=require('socket.io-client');
 let socket = io()
 const video = document.querySelector('video')
 let client = {}
-let currentFilter
 //get stream
 navigator.mediaDevices.getUserMedia({ video: true, audio: true })
     .then(stream => {
