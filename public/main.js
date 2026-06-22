@@ -28,6 +28,14 @@ navigator.mediaDevices
         initiator: type == "init" ? true : false,
         stream: stream,
         trickle: false,
+        config: {
+          iceServers: [
+            {
+              urls: "stun:stun.l.google.com:19302",
+            },
+            { urls: "stun:global.stun.twilio.com:3478" },
+          ],
+        },
       });
       peer.on("stream", function (stream) {
         CreateVideo(stream);
@@ -106,6 +114,7 @@ navigator.mediaDevices
       document.getElementById("muteText").remove();
       if (client.peer) {
         client.peer.destroy();
+        delete client.peer;
       }
     }
 
