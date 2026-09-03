@@ -9,7 +9,7 @@
   },
   "author": "Vinayak Sinha",
   "dependencies": {
-    "express": "^4.16.4",
+    "express": "^5.2.1",
     "simple-peer": "^9.2.1",
     "socket.io": "^4.8.3"
   },
